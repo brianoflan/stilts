@@ -1,0 +1,35 @@
+<project name="default" default="help" >
+    <!--
+    <echo message="In ${ant.project.name}'s XML file." />
+    <echo message="In ${ant.file.default}'s XML file." />
+    -->
+    
+    <target name="build" >
+        <!--
+        <echo message="In ${ant.project.name}'s XML file's build target." />
+        <echo message="In ${ant.file.default}'s XML file's build target." />
+        -->
+    </target>
+    
+    <target name="clean" depends="clean-check, clean-do">
+    </target>
+    
+    <target name="clean-check" >
+        <echo level="debug" message="basedir '${basedir}'" />
+        <condition property="do.clean" >
+            <and>
+                <isset property="build" />
+                <available file="${basedir}/${build}" type="dir" />
+            </and>
+        </condition>
+    </target>
+    
+    <target name="clean-do" if="do.clean" >
+        <delete dir="${basedir}/${build}" />
+    </target>
+    
+    <target name="help" >
+        <echo message="(Default help message.)" />
+    </target>
+    
+</project>

@@ -1,0 +1,59 @@
+# Usual identities:
+cmd
+src
+bin
+lib
+xcopy
+x
+config
+clean
+build
+PATH
+# File extension identities:
+sh
+zip
+tgz
+gz
+tar
+xml
+xhtml
+bat
+pl
+pm
+py
+txt
+out
+cfg
+# System specific:
+stilts
+totr
+msrc
+pretrans
+transd
+OBXml
+build_msrc
+build_totr
+build_OBXml
+_ignore
+# Specific to this instance:
+Users
+bflannery
+Documents
+save
+save6a
+strawperl
+#Programs-Portable
+Programs
+Public
+cqperl
+perl
+site
+python
+save2
+subsave6_py2
+py2
+App
+Portable
+config_default
+# Unusual:
+xyzzy

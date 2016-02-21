@@ -1,0 +1,13 @@
+bin
+bash
+if
+then
+fi
+export
+for
+do
+done
+dirname
+pwd
+basename
+cd

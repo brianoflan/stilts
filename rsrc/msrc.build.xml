@@ -1,0 +1,19 @@
+<project name="msrc" >
+    <!--
+    <echo message="In Ant build XML file rsrc/msrc.build.xml ." />
+    <echo message="rsrc '${rsrc}'" />
+    <echo message="basedir '${basedir}'" />
+    <exec executable="pwd" outputproperty="pwd">
+    </exec>
+    <echo message="pwd = ${pwd}" />
+    -->
+    
+    <!--import file="${rsrc}/msrc/build.xml" /-->
+    <import file="msrc/build.xml" />
+    
+    <target name="build" depends="_msrc.build" >
+        <echo level="debug" message="In the build target of msrc." />
+        <move file="${msrc}/build" todir="${basedir}" />
+    </target>
+    
+</project>

@@ -1,0 +1,4 @@
+msrc = msrc
+obxml = obxml
+stilts.build.deep = true
+strtr = strtr

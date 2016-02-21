@@ -1,0 +1,28 @@
+<OBXml>Implicit serial clause 1. (indent 0)
+<olli> Explicit serial clause (with intentional indent 1).</olli>
+Implicit serial clause 2. (indent 0)
+<obxmlul>
+<li>Order not important. (indent 0)
+</li>xxx1
+<li> Only life important. (indent 1)
+</li>xxx2
+<li>(Parallel clause 3.)  (indent 0, outdent 2)  
+</li>xxx3
+</obxmlul>Implicit serial clause 3. (indent 0)
+<olli>Explicit serial clause (indent 0, outdent 1 plus newline). 
+</olli>
+ONE MORE TIME:
+<obxmlul label="oneMoreTime">
+<li i="1">Order not important. (indent 0)
+</li>
+<li i="2"> Only life important. (indent 1)
+  <nestedXml attribZ="123" attribY="abc" >
+    Nested text!
+  </nestedXml>
+  <nestedXml attribZ="123final" attribY="abcfinal" />
+  Difficobxmlult Tail Text.
+</li>
+<li i="3">(Parallel clause 3.)  (indent 0, outdent 2)  
+</li>
+</obxmlul>Implicit serial clause 4. (indent 0)
+Implicit serial clause 5.(indent 0)</OBXml>

@@ -1,0 +1,97 @@
+<project name="stilts" >
+    <!--
+    <echo message="In rsrc/stilts.build.xml ." />
+    <echo message="rsrc '${rsrc}'" />
+    <echo message="basedir '${basedir}'" />
+    <exec executable="pwd" outputproperty="pwd">
+    </exec>
+    <echo message="pwd = ${pwd}" />
+    <echo message="stilts.dir ${stilts.dir}" />
+    <echo message="build ${build}, msrc ${msrc}, obxml ${obxml}, strtr ${strtr}" />
+    -->
+    <dirname file="${ant.file.stilts}" property="stilts.dir" />
+    <property file="${stilts.dir}/stilts.build.props" />
+    
+    <target name="build" 
+      depends="default.build, build-check-stilts, build-msrc, 
+        build-obxml, build-strtr, build-deep" 
+      >
+        <!--
+        <exec executable="pwd" outputproperty="pwd">
+        </exec>
+        <echo message="stilts.dir ${stilts.dir}" />
+        <echo message="build ${build}, msrc ${msrc}, obxml ${obxml}, strtr ${strtr}" />
+        <echo message="pwd = ${pwd}" />
+        -->
+    </target>
+    
+    <target name="build-check-stilts" >
+        <condition property="do.build.msrc" >
+            <available file="${msrc}" type="dir" />
+        </condition>
+        <condition property="do.build.obxml" >
+            <available file="${obxml}" type="dir" />
+        </condition>
+        <condition property="do.build.strtr" >
+            <available file="${strtr}" type="dir" />
+        </condition>
+    </target>
+    
+    <target name="build-msrc" if="do.build.msrc" >
+        <!--touch mkdirs="true" file="${build}/msrc.txt" /-->
+        <property file="${msrc}/build.properties" />
+        <!--
+        <echo message="rsrc '${rsrc}' (rsrc/stilts.build.xml)" />
+        <echo message="basedir '${basedir}' (rsrc/stilts.build.xml)" />
+        -->
+        <ant antfile="${rsrc}/msrc.build.xml" target="build" />
+    </target>
+    
+    <target name="build-obxml" if="do.build.obxml" >
+        <!--touch mkdirs="true" file="${build}/obxml.txt" /-->
+        <ant antfile="${rsrc}/obxml.build.xml" target="build" />
+    </target>
+    
+    <target name="build-strtr" if="do.build.strtr" >
+        <!--touch mkdirs="true" file="${build}/strtr.txt" /-->
+        <ant antfile="${rsrc}/strtr.build.xml" target="build" />
+    </target>
+    
+    <target name="build-deep" depends="build-deep-check, build-deep-do" >
+    </target>
+    
+    <target name="build-deep-check" >
+        <condition property="do.build.deep" >
+            <or>
+              <available file="${build}/${msrc}" type="dir" />
+              <available file="${build}/${obxml}" type="dir" />
+              <available file="${build}/${strtr}" type="dir" />
+            </or>
+        </condition>
+    </target>
+    
+    <target name="build-deep-do" if="do.build.deep" >
+        <echo message="copy file='${ant.file}' todir='${build}' " />
+        <copy file="${ant.file}" todir="${build}" />
+        <echo message="rsrc = ../${rsrc}${line.separator}" file="${build}/build.props" />
+        <!--ant antfile="${ant.file}" dir="${build}" target="xyzzy" /-->
+        <!--ant antfile="${ant.file}" dir="${build}" target="build" /-->
+        <!--ant antfile="${build}/${ant.file}" target="build" /-->
+        
+        <basename file="${ant.file}" property="build.deep.file" />
+        <!--ant antfile="${build}/${build.deep.file}" target="build" /-->
+        <ant antfile="${build.deep.file}" dir="${build}" target="build" 
+          inheritAll="false"
+        />
+    </target>
+    
+    <!--
+    <target name="xyzzy" >
+        <echo message="Nothing happens." />
+        <exec executable="pwd" outputproperty="pwd">
+        </exec>
+        <echo message="pwd = ${pwd}" />
+    </target>
+    -->
+
+</project>

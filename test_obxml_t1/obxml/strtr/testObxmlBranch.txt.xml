@@ -1,0 +1,17 @@
+<OBXml>One line.
+Two line.
+<branches field="howToSayThree" >
+<branch value="Three" >Three</branch>
+<branch value="Free" >Free</branch>
+<branch value="Tree" >Tree</branch>
+<branch value="4" >3</branch>
+</branches> lines.
+<branches field="howToSayFour" >
+<branch>Four!</branch>
+<branch value="Four" >Four!</branch>
+<branch value="Fore" >Fore!</branch>
+<branch value="Golf" >Fore!</branch>
+<branch value="4" >4!</branch>
+</branches>
+
+Some final words.</OBXml>

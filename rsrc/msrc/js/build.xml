@@ -1,0 +1,9 @@
+<project name="msrc.js" default="build" xmlns:ac="http://ant-contrib.sourceforge.net" >
+    <description>
+        msrc js build
+    </description>
+    <property name="msrc.resource.dirname" value=".." />
+    <property name="space" value=" " />
+    <import file="${msrc.resource.dirname}/build.lang.xml" />
+
+</project>

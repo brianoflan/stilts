@@ -1,0 +1,12 @@
+<project name="obxml" >
+    
+    <target name="build" >
+        <echo message="In the build target of obxml." />
+        <exec executable="perl" failonerror="true" >
+            <arg value="${rsrc}/do_OBXml.pl" />
+            <env key="obxml_to" value="${build}" />
+            <env key="obxml_from" value="${obxml}" />
+        </exec>
+    </target>
+    
+</project>

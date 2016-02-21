@@ -1,0 +1,24 @@
+<project name="msrc.appendFile" xmlns:ac="http://ant-contrib.sourceforge.net" >
+    <target name="build.appendFile" >
+      <!--echo message="build.appendFile" />
+      <echo message="build.appendFile.dir ${build.appendFile.dir}" />
+      <echo message="build.appendFile.file ${build.appendFile.file}" /-->
+      
+      <property name="build.appendFile.full" value="${build.appendFile.dir}/${build.appendFile.file}" />
+        <ac:if>
+            <available file="${build.appendFile.full}" />
+            <then>
+              <concat destfile="${outfile}" append="true" >
+                <filelist dir="${build.appendFile.dir}" files="${build.appendFile.file}"/>
+                <filterchain>
+                  <expandproperties/>
+                </filterchain>
+              </concat>
+            </then>
+            <else>
+              <echo level="info" message="Failed to find file ${build.appendFile.full}.  Skipping." />
+            </else>
+        </ac:if>
+    </target>
+    
+</project>

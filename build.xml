@@ -1,0 +1,64 @@
+<project name="project1" default="help" >
+    <property file="build.props" />
+    <property file="${ant.project.name}.build.props" />
+    <property file="default.build.props" />
+    <property file="rsrc/default.build.props" />
+    <property file="${rsrc}/default.build.props" />
+    <property environment="env" />
+    
+    <!--import file="default.build.xml" /-->
+    <import file="${rsrc}/stilts.build.xml" />
+    <import file="${rsrc}/default.build.xml" />
+    
+    <target name="help" >
+        <echo>
+          Important targets:
+            init
+            build
+            clean
+            dist
+        </echo>
+    </target>
+    
+    <!--target name="init" depends="init-default, init-stilts" -->
+    <!--target name="init" depends="init-default" -->
+    <target name="init" >
+        <echo message="rsrc ${rsrc}" />
+    </target>
+    
+    <!--
+    
+    <target name="init-default" depends="init-default-check, init-default-import" >
+    </target>
+    
+    <target name="init-default-check" >
+        <condition property="init.default.import" value="default.build.xml" >
+            <available file="default.build.xml" />
+        </condition>
+        <condition property="init.default.import" value="${rsrc}/default.build.xml" >
+            <available file="${rsrc}/default.build.xml" />
+        </condition>
+        <condition property="do.init.default.import" value="true" >
+            <isset property="init.default.import" />
+        </condition>
+    </target>
+    
+    <target name="init-default-import" if="do.init.default.import" >
+        <!- -import file="${init.default.import}" /- ->
+        <echo message="init.default.import = ${init.default.import}" />
+        <echo message="do.init.default.import = ${do.init.default.import}" />
+    </target>
+    
+    -->
+    
+    <!--
+    <target name="build" depends="init, default-build" >
+    </target>
+    
+    <target name="default-build" depends="default.build" />
+    <target name="default-build" >
+        <antcall target="default.build" />
+    </target>
+    -->
+    
+</project>

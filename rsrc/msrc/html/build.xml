@@ -1,0 +1,8 @@
+<project name="msrc.html" default="build" xmlns:ac="http://ant-contrib.sourceforge.net" >
+    <description>
+        msrc html build
+    </description>
+    <property name="msrc.resource.dirname" value=".." />
+    <import file="${msrc.resource.dirname}/build.lang.xml" />
+
+</project>

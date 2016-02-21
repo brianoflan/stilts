@@ -1,0 +1,15 @@
+<project name="msrc.build.lang" default="build" xmlns:ac="http://ant-contrib.sourceforge.net" >
+    <description>
+        meta-source build at the language folder level
+    </description>
+    <target name="build">
+      <echo level="info" message="Building ${build.item} (lang ${lang})!" />
+      <property file="${msrc.resource.dir}/${lang}/build.properties" />
+      <property name="style" value="${style.default}" />
+      <ant antfile="${msrc.resource.dir}/${lang}/${style}/build.xml" target="build" />
+      <ant antfile="${msrc.resource.dir}/${lang}/${style}/build.xml" target="build.last" />
+    </target>
+    <target name="build.last">
+        
+    </target>
+</project>

@@ -1,0 +1,142 @@
+<project name="msrc.build.part" default="build" xmlns:ac="http://ant-contrib.sourceforge.net" >
+    <description>
+        meta-source build at the part folder level (below the language and style levels)
+    </description>
+    
+    <import file="${msrc.resource.dirname}/build.appendFile.xml" />
+    
+    <property file="${basedir}/${build.item}.properties" />
+    <property file="${msrc.resource.dir}/${lang}/build.properties" />
+    <property file="${msrc.resource.dir}/${lang}/${style}/build.properties" />
+    <!--property file="${msrc.resource.dir}/${lang}/${style}/${partType}/build.properties" /-->
+    <property file="${msrc.resource.dir}/${lang}/${style}/part.${partType}.properties" />
+    <!--property name="outfile" value="${build.dir}/${outfilename}.${outfile.ext}" /-->
+    <property file="${basedir}/${build.item}/part.${build.part}.properties" />
+    
+    <target name="build">
+      <echo level="info" message="Building ${build.item} (lang ${lang}) (style ${style})" />
+      <echo level="info" message="  (part ${build.part}, partType ${partType})!" />
+      <echo message="Is part.prefix already set? '${part.prefix}'" />
+      <ac:propertycopy property="partType.prefix" from="${partType}.prefix" />
+      <ac:propertycopy property="part.prefix" from="${build.part}.prefix" silent="true" />
+      <echo message="Is part.content already set? '${part.content}'" />
+      <ac:propertycopy property="partType.content" from="${partType}.content" silent="true" />
+      <ac:propertycopy property="part.content" from="${build.part}.content" silent="true" />
+      
+      <ac:if>
+        <isset property="partType.prefix" />
+        <then>
+          <echo file="${outfile}" append="true">${partType.prefix}</echo>
+        </then>
+      </ac:if>
+      <ac:if>
+        <isset property="part.prefix" />
+        <then>
+          <echo file="${outfile}" append="true">${part.prefix}</echo>
+        </then>
+      </ac:if>
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="part.${partType}.prefix.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${msrc.resource.dirname}/${lang}/${style}" />
+      </antcall>
+      
+      <ac:if>
+        <isset property="partType.content" />
+        <then>
+          <echo file="${outfile}" append="true">${partType.content}</echo>
+        </then>
+      </ac:if>
+      <ac:if>
+        <isset property="part.content" />
+        <then>
+          <echo file="${outfile}" append="true">${part.content}</echo>
+        </then>
+      </ac:if>
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="${partType}.content.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${msrc.resource.dirname}/${lang}/${style}" />
+      </antcall>
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="part.${build.part}.content.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${basedir}/${build.item}" />
+      </antcall>
+      
+      <ac:if>
+        <isset property="${build.part}.part.order" />
+        <then>
+          <condition property="nextIndent" value="  ${indent}">
+            <isset property="indent" />
+          </condition>
+          <property name="nextIndent" value="${indentUnit}" />
+          <ac:var name="tmp.build.part.order" unset="true" />
+          <ac:propertycopy property="tmp.build.part.order" from="${build.part}.part.order" />
+          <antcall target="build-parts"
+            inheritall="false"
+          >
+            <param name="basedir" value="${basedir}" />
+            <param name="build.part.order" value="${tmp.build.part.order}" />
+            <param name="indent" value="${nextIndent}" />
+            <param name="lang" value="${lang}" />
+            <param name="msrc.resource.dir" value="${msrc.resource.dir}" />
+            <param name="msrc.resource.dirname" value="${msrc.resource.dirname}" />
+            <param name="nearTerminalSpace" value="${nearTerminalSpace}" />
+            <param name="outfile" value="${outfile}" />
+            <param name="style" value="${style}" />
+          </antcall>
+        </then>
+      </ac:if>
+
+      
+    </target>
+    
+    <target name="build.last">
+          <ac:propertycopy property="part.suffix" from="${build.part}.suffix" silent="true" />
+          <ac:propertycopy property="partType.suffix" from="${partType}.suffix" />
+          
+          <ac:if>
+            <isset property="part.suffix" />
+            <then>
+              <echo file="${outfile}" append="true">${part.suffix}</echo>
+              <echo level="debug" message="q(${part.suffix})" />
+            </then>
+          </ac:if>
+          <ac:if>
+            <isset property="partType.suffix" />
+            <then>
+              <echo file="${outfile}" append="true">${partType.suffix}</echo>
+              <echo level="debug" message="q(${partType.suffix})" />
+            </then>
+          </ac:if>
+          
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="${partType}.suffix.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${msrc.resource.dirname}/${lang}/${style}" />
+      </antcall>
+    </target>
+    
+    <target name="build-parts" >
+      <ac:if>
+        <isset property="build.part.order" />
+        <then>
+          <ac:foreach list="${build.part.order}" param="build.part"
+            target="build-part"
+            inheritall="true"
+            >
+          <!--
+            />
+            <param name="basedir" value="${basedir}/msrc" />
+          -->
+          </ac:foreach>
+        </then>
+      </ac:if>
+    </target>
+    <target name="build-part" >
+      <echo message="build.part.xml build-part (may be recursive) for part '${build.part}'." />
+      <ac:propertycopy property="partType" from="${build.part}.partType" silent="true" />
+      <property name="partType" value="default" />
+      <echo message="  partType '${partType}'." />
+      <ant antfile="${msrc.resource.dir}/build.part.xml" target="build" />
+      <ant antfile="${msrc.resource.dir}/build.part.xml" target="build.last" />
+    </target>
+    
+</project>

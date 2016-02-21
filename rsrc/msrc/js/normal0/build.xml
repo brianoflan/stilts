@@ -1,0 +1,10 @@
+<project name="msrc.js.normal0" default="build" >
+    <description>
+        msrc js "normal0" (style) build
+    </description>
+    <!--property name="nearTerminalSpace" value=" " /-->
+    <property file="${msrc.resource.dirname}/${lang}/${style}/build.properties" />
+      <echo message="nearTerminalSpace '${nearTerminalSpace}'." />
+    <property name="msrc.resource.dirname" value="../.." />
+    <import file="${msrc.resource.dirname}/build.style.xml" />
+</project>

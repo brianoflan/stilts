@@ -1,0 +1,113 @@
+<project name="msrc.html.normal0" default="build" xmlns:ac="http://ant-contrib.sourceforge.net" >
+    <description>
+        msrc html "normal0" (style) build
+    </description>
+    <property name="msrc.resource.dirname" value="../.." />
+    
+    <ac:if>
+        <and>
+            <isset property="js" />
+            <not>
+                <isfalse value="${js}" />
+            </not>
+        </and>
+        <then>
+            <property name="build.js" value="true" />
+        </then>
+    </ac:if>
+    
+    <target name="build" depends="build.js,build.css.head,
+    msrc.build.style.build" />
+    
+    <target name="build.js" if="build.js" depends="build.js.embed,build.js.no.embed,
+    build.js.head.config,build.js.browser" />
+    
+    <target name="build.js.embed" if="${js.embed}">
+      <dirname property="outdir" file="${outfile}" />
+      <loadfile
+        property="tmp.js"
+        srcFile="${outdir}/${js.filename}">
+        <filterchain>
+          <expandproperties/>
+        </filterchain>
+      </loadfile>
+      <loadfile
+        property="js.head"
+        srcFile="${msrc.resource.dirname}/${lang}/${style}/js.embed.${outfile.ext}">
+        <filterchain>
+          <expandproperties/>
+        </filterchain>
+      </loadfile>
+      <mkdir dir="${outdir}/.old" />
+      <move file="${outdir}/${js.filename}" todir="${outdir}/.old" />
+    </target>
+
+    <target name="build.js.no.embed" unless="${js.embed}">
+      <loadfile
+        property="js.head"
+        srcFile="${msrc.resource.dirname}/${lang}/${style}/js.no.embed.${outfile.ext}">
+        <filterchain>
+          <expandproperties/>
+        </filterchain>
+      </loadfile>
+    </target>
+
+    <target name="build.js.head.config" >
+      <ac:if>
+        <available file="${basedir}/${build.item}/js.head.config.js" />
+        <then>
+          <loadfile
+            property="tmp.js.head.config"
+            srcFile="${basedir}/${build.item}/js.head.config.js">
+            <filterchain>
+              <expandproperties/>
+            </filterchain>
+          </loadfile>
+          <loadfile
+            property="js.head.config"
+            srcFile="${msrc.resource.dirname}/${lang}/${style}/js.config.${outfile.ext}">
+            <filterchain>
+              <expandproperties/>
+            </filterchain>
+          </loadfile>
+        </then>
+      </ac:if>
+      <property name="js.head.config" value='' />
+    </target>
+
+    <target name="build.css.head" >
+      <ac:if>
+        <available file="${basedir}/${build.item}/style.css" />
+        <then>
+          <loadfile
+            property="tmp.css.head"
+            srcFile="${basedir}/${build.item}/style.css">
+            <filterchain>
+              <expandproperties/>
+            </filterchain>
+          </loadfile>
+          <loadfile
+            property="css.head"
+            srcFile="${msrc.resource.dirname}/${lang}/${style}/style.${outfile.ext}">
+            <filterchain>
+              <expandproperties/>
+            </filterchain>
+          </loadfile>
+        </then>
+      </ac:if>
+      <property name="css.head" value="" />
+    </target>
+
+    <target name="build.js.browser" >
+          <loadfile
+            property="js.body.config.browser"
+            srcFile="${msrc.resource.dirname}/${lang}/${style}/js.browser.${outfile.ext}">
+            <filterchain>
+              <expandproperties/>
+            </filterchain>
+          </loadfile>
+    </target>
+
+    
+    <import file="${msrc.resource.dirname}/build.style.xml" />
+</project>

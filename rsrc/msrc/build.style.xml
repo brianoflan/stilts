@@ -1,0 +1,65 @@
+<project name="msrc.build.style" default="build" xmlns:ac="http://ant-contrib.sourceforge.net" >
+    <description>
+        meta-source build at the style folder level (below the language level)
+    </description>
+    
+    <import file="${msrc.resource.dirname}/build.appendFile.xml" />
+    
+    <property file="${msrc.resource.dir}/${lang}/${style}/build.properties" />
+    <property name="outfile" value="${build.dir}/${outfilename}.${outfile.ext}" />
+    
+    <target name="build">
+      <echo level="debug" message="Building ${build.item} (lang ${lang}) (style ${style})!" />
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="file.prefix.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${msrc.resource.dirname}/${lang}/${style}" />
+      </antcall>
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="content.first.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${basedir}/${build.item}" />
+      </antcall>
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="content.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${basedir}/${build.item}" />
+      </antcall>
+      <echo message="nearTerminalSpace '${nearTerminalSpace}' (before build-parts)." />
+      <antcall target="build-parts" >
+      </antcall>
+    </target>
+    
+    <target name="build.last">
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="content.last.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${basedir}/${build.item}" />
+      </antcall>
+      <antcall target="build.appendFile" >
+        <param name="build.appendFile.file" value="file.suffix.${outfile.ext}" />
+        <param name="build.appendFile.dir" value="${msrc.resource.dirname}/${lang}/${style}" />
+      </antcall>
+    </target>
+    
+    <target name="build-parts" >
+      <echo message="nearTerminalSpace '${nearTerminalSpace}'." />
+      <ac:if>
+        <isset property="build.part.order" />
+        <then>
+          <ac:foreach list="${build.part.order}" param="build.part"
+            target="build-part"
+            inheritall="true"
+            >
+          <!--
+            />
+            <param name="basedir" value="${basedir}/msrc" />
+          -->
+          </ac:foreach>
+        </then>
+      </ac:if>
+    </target>
+    <target name="build-part" >
+      <ac:propertycopy property="partType" from="${build.part}.partType" silent="true" />
+      <property name="partType" value="default" />
+      <ant antfile="${msrc.resource.dir}/build.part.xml" target="build" />
+      <ant antfile="${msrc.resource.dir}/build.part.xml" target="build.last" />
+    </target>
+    
+</project>

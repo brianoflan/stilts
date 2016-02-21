@@ -1,0 +1,71 @@
+<project name="_msrc" default="default" xmlns:ac="http://ant-contrib.sourceforge.net" >
+<!--project name="msrc" default="build" xmlns="http://ant.apache.org" xmlns:ac="http://ant-contrib.sourceforge.net" -->
+    <!--
+    <echo message="In Ant build XML file rsrc/msrc/build.xml ." />
+    -->
+    <description>
+        meta-source
+    </description>
+    <!--property name="msrc.resource.dir" value="${rsrc}/msrc" /-->
+    <dirname property="msrc.resource.dirname" file="${ant.file._msrc}" />
+    <property name="msrc.resource.dir" value="${msrc.resource.dirname}" />
+    <!--
+    <echo message="msrc.resource.dir ${msrc.resource.dir}" />
+    <echo message="basedir ${basedir}" />
+    <echo message="rsrc ${rsrc}" />
+    <echo message="msrc ${msrc}" />
+    -->
+    <echo level="debug" message="msrc.resource.dir ${msrc.resource.dir}" />
+    <echo level="debug" message="msrc.resource.dirname ${msrc.resource.dirname}" />
+    <echo level="debug" message="ant.file.msrc ${ant.file.msrc}" />
+    <property file="${basedir}/msrc/build.properties" />
+    <property file="${msrc.resource.dir}/build.properties" />
+    
+    <taskdef resource="net/sf/antcontrib/antlib.xml"
+      uri="http://ant-contrib.sourceforge.net"
+      classpath="${msrc.resource.dir}/ant-contrib.${antcontrib.version}.jar"
+    />
+    
+    <target name="default" depends="clean,build" />
+    
+    <target name="clean">
+      <echo message='&lt;delete dir="${basedir}/${build.dir}" />' />
+      <delete dir="${basedir}/${build.dir}" />
+    </target>
+
+    <target name="build" depends="build.build.order">
+        <echo level="info" message="Building!" />
+        <echo level="debug" message="basedir ${basedir}" />
+        <echo level="debug" message="msrc.resource.dir ${msrc.resource.dir}" />
+    </target>
+    
+    <target name="build.build.order" if="build.order">
+      <echo level="debug" message="basedir ${basedir} (build.build.order)" />
+      <ac:foreach list="${build.order}" param="build.item"
+        target="build.each"
+        inheritall="true"
+        >
+      <!--
+        />
+      -->
+        <param name="basedir" value="${basedir}/msrc" />
+      </ac:foreach>
+      
+    </target>
+    
+    <target name="build.each" >
+      <!--
+      <echo message="basedir ${basedir}" />
+      <echo message="Building ${build.item}!  Property file=${basedir}/msrc/${build.item}.properties ." />
+      -->
+      <echo level="verbose" message="Building ${build.item}!" />
+      <!--property file="${basedir}/${build.item}.properties" /-->
+      <!--property file="${basedir}/msrc/${build.item}.properties" /-->
+      <property file="${basedir}/${build.item}.properties" />
+      
+      <property name="lang" value="${lang.default}" />
+      <ant antfile="${msrc.resource.dir}/${lang}/build.xml" target="build" />
+      <ant antfile="${msrc.resource.dir}/${lang}/build.xml" target="build.last" />
+    </target>
+    
+</project>

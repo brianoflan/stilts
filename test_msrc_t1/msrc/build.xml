@@ -1,0 +1,7 @@
+<project name="msrc_example1" default="default" >
+    <description>
+        simple example msrc build
+    </description>
+    <property name="msrc.resource.dir" value="../msrc_rsrc" />
+    <import file="${msrc.resource.dir}/build.xml" />
+</project>
