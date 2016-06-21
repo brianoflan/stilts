@@ -26,7 +26,13 @@ $fromFolder ||= 'transd';
 my $strSpace = $ENV{'strtr_stringspace'} ;
 $strSpace ||= 'strtrDefaultX' ;
 my $configFile = catfile( $fromFolder, 'strtr_cfg', "$strSpace.trans.properties" ) ;
-my $inventTrans = '1';
+# my $inventTrans = '1';
+my $inventTrans ;
+if ( exists( $ENV{'strtr_inventtrans'} ) and defined( $ENV{'strtr_inventtrans'} ) ) {
+  $inventTrans = $ENV{'strtr_inventtrans'} ;
+} else {
+  $inventTrans ||= '1' ;
+}
 my %config ;
 # my $extractor ;
 my $translator ;

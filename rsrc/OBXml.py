@@ -3,7 +3,7 @@
 # DEBUG1=True
 DEBUG1=True
 # # DEBUG2 for .debug and .obxml.xml files
-DEBUG2=True
+DEBUG2=False
 
 # print "Python running bin OBXml.py"
 # print "Python running bin OBXml.py" if DEBUG1 == True # Didn't work.
